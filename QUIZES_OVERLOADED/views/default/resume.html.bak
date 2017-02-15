@@ -1,0 +1,119 @@
+{{extend 'layout.html'}}
+<script type="text/javascript">
+function Check(a,value) {
+         
+    var chkPassport = document.getElementById(a+"A");
+    
+        if (chkPassport.checked == 1) {
+            
+            str = JSON.stringify({"id1":a,"id2":value});
+         
+            var hr = new XMLHttpRequest();
+            hr.open("POST","show1",true);
+            hr.setRequestHeader('Content-Type', 'application/json');
+            hr.onreadystatechange = function () {
+            if (hr.readyState == 4 && hr.status == 200) {
+            data = hr.responseText;
+            }
+            };
+            hr.send(str);
+
+        }
+
+        var chkPassport = document.getElementById(a+"B");
+             
+    if (chkPassport.checked) {
+          str = JSON.stringify({"id1":a,"id2":value});
+            
+            var hr = new XMLHttpRequest();
+            hr.open("POST","show2",true);
+            hr.setRequestHeader('Content-Type', 'application/json');
+            hr.onreadystatechange = function () {
+            if (hr.readyState == 4 && hr.status == 200) {
+            data = hr.responseText;
+            }
+            };
+            hr.send(str);
+        }  
+        var chkPassport = document.getElementById(a+"C");
+         
+        if (chkPassport.checked) {
+           str = JSON.stringify({"id1":a,"id2":value});
+           
+            var hr = new XMLHttpRequest();
+            hr.open("POST","show3",true);
+            hr.setRequestHeader('Content-Type', 'application/json');
+            hr.onreadystatechange = function () {
+            if (hr.readyState == 4 && hr.status == 200) {
+            data = hr.responseText;
+            }
+            };
+            hr.send(str);
+        } 
+        var chkPassport = document.getElementById(a+"D");
+          
+        if (chkPassport.checked) {
+         str = JSON.stringify({"id1":a,"id2":value});
+            
+            var hr = new XMLHttpRequest();
+            hr.open("POST","show4",true);
+            hr.setRequestHeader('Content-Type', 'application/json');
+            hr.onreadystatechange = function () {
+            if (hr.readyState == 4 && hr.status == 200) {
+            data = hr.responseText;
+            }
+            };
+            hr.send(str);
+        }
+}
+</script>
+{{for i in xrange(0, len(rows)):}}
+{{row=rows[i]}}
+{{col=cols[i]}}
+<form name = "myform" method="POST" style="background-color:#ffcc66;margin-top:19px;width:83%;margin-left:21px;border-radius: 19px;" >
+
+<div style="font-size:20px;font-family:message-box;color:#8e340b;font-weight:500;">
+{{=row.question}}
+    </div>
+<label id="upload_question_answer_a__label" class="" style="color:#664424;font-family:-moz-fixed;font-size:15px;">
+{{if (col.answer_a==False):}}
+<input id="{{=str(row.id)+'A'}}" class="boolean" type="checkbox" value="1" name="answer_a">
+{{else:}}
+   <input id="{{=str(row.id)+'A'}}" class="boolean" type="checkbox" value="1" name="answer_a" checked> 
+{{pass}}
+ {{=row.option_a}}
+    </label>
+    <br>
+<label id="upload_question_answer_b__label" class="" style="color:#664424;font-family:-moz-fixed;font-size:15px;" >
+  {{if (col.answer_b==False):}}  
+<input id="{{=str(row.id)+'B'}}" class="boolean" type="checkbox" value="2" name="answer_b">
+{{else:}}
+<input id="{{=str(row.id)+'B'}}" class="boolean" type="checkbox" value="2" name="answer_b" checked>
+    {{pass}}
+    {{=row.option_b}}
+</label>
+<br>
+<label id="upload_question_answer_c__label" class="" style="color:#664424;font-family:-moz-fixed;font-size:15px;" >
+    {{if (col.answer_c==False):}}
+<input id="{{=str(row.id)+'C'}}" class="boolean" type="checkbox" value="3" name="answer_c">
+    {{else:}}
+   <input id="{{=str(row.id)+'C'}}" class="boolean" type="checkbox" value="3" name="answer_c" checked> 
+    {{pass}}
+{{=row.option_c}}
+</label>
+    <br>
+<label id="upload_question_answer_d__label" class="" style="color:#664424;font-family:-moz-fixed;font-size:15px;">
+    {{if (col.answer_d==False):}}
+<input id="{{=str(row.id)+'D'}}" class="boolean" type="checkbox" value="4" name="answer_d">
+{{else:}}
+    <input id="{{=str(row.id)+'D'}}" class="boolean" type="checkbox" value="4" name="answer_d" checked>
+    {{pass}}
+    
+    {{=row.option_d}}
+</label>
+    <br>
+ <input type="button" id="btnCheck" value = "Save" onclick = "Check({{=row.id}},{{=value}})" style="margin-left:0px;" />
+</form>
+{{pass}}
+{{=A('Pause' ,_class='btn btn-primary',_style="margin-left: 22px;background-color: #8e6638;margin-top: 19px; margin-bottom: 9px;color:#1a0000;", _href=URL("index"))}}
+{{=A('Finish ',_class='btn btn-primary',_style="margin-left: 602px;background-color: #8e6638;margin-top: 19px; margin-bottom: 9px;color:#1a0000;", _href=URL("finish", args=[value,b]))}}

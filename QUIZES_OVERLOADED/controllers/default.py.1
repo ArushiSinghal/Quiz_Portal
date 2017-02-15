@@ -1,0 +1,121 @@
+# -*- coding: utf-8 -*-
+# this file is released under public domain and you can use without limitations
+
+#########################################################################
+## This is a sample controller
+## - index is the default action of any application
+## - user is required for authentication and authorization
+## - download is for downloading files uploaded in the db (does streaming)
+#########################################################################
+
+def index():
+    """
+    example action using the internationalization operator T and flash
+    rendered by views/default/index.html or views/generic.html
+
+    if you need a simple wiki simply replace the two lines below with:
+    return auth.wiki()
+    """
+    rows=db().select(db.titles.ALL,orderby=db.titles.title_name)
+    return dict(rows=rows)
+@auth.requires_login()
+def show():
+    value = request.vars.value
+    rows = db(db.upload_question.title == value).select(db.upload_question.ALL)
+    for row in rows:
+        print type(row.id)
+        print type(auth.user_id)
+        print row.id
+        print auth.user_id
+        #db.executesql("INSERT INTO checking (question_id,current_user) VALUES ('%d','%d')" % (row.id,auth.user_id))
+        db.executesql("INSERT INTO checking (question_id,current_user,answer_a,answer_b,answer_c,answer_d,title) VALUES ('{0}','{1}','False','False','False','False','{2}')" .format(row.id,auth.user_id,value))
+    b = auth.user_id
+    print "id",b
+    return dict(rows=rows,value=value,b=b)
+def show1():
+    a = request.vars.id1
+    b = request.vars.id2
+    print "a",a
+    print "b",b
+    rows = db(db.checking.question_id == a).select(db.checking.ALL)
+    print rows
+    db(db.checking.question_id == a).update(answer_a = 'True')
+    row = db(db.checking.question_id == a).select(db.checking.ALL)
+    print row
+    
+def show2():
+    a = request.vars.id1
+    b = request.vars.id2
+    print "a",a
+    print "b",b
+    db(db.checking.question_id == a).update(answer_b = 'True')
+def show3():
+    a = request.vars.id1
+    b = request.vars.id2
+    print "a",a
+    print "b",b
+    db(db.checking.question_id == a).update(answer_c = 'True')
+def show4():
+    a = request.vars.id1
+    b = request.vars.id2
+    print "a",a
+    print "b",b
+    db(db.checking.question_id == a).update(answer_d = 'True')
+
+def finish():
+    value=request.args(0)
+    user=request.args(1)
+    #print "user",user
+    rows = db((db.checking.title == value) & (db.checking.current_user == user)).select(db.checking.ALL)
+    slct = db().select(db.upload_question.ALL)
+    val = 0
+    for row in rows:
+        choose = db(db.upload_question.id == row.question_id).select(db.upload_question.ALL)
+        for chose in choose :
+            if (row.answer_a == chose.answer_a and row.answer_b == chose.answer_b and row.answer_c == chose.answer_c and row.answer_d == chose.answer_d ) :
+                val = val + 10
+    usr = db(db.auth_user.id == user).select(db.auth_user.ALL)
+    return dict(val=val,usr=usr,value=value,user=user)
+
+def home():
+    value=request.args(0)
+    user=request.args(1)
+    db((db.checking.title == value) & (db.checking.current_user == user)).delete()
+    redirect(URL('index'))
+
+def user():
+    """
+    exposes:
+    http://..../[app]/default/user/login
+    http://..../[app]/default/user/logout
+    http://..../[app]/default/user/register
+    http://..../[app]/default/user/profile
+    http://..../[app]/default/user/retrieve_password
+    http://..../[app]/default/user/change_password
+    http://..../[app]/default/user/bulk_register
+    use @auth.requires_login()
+        @auth.requires_membership('group name')
+        @auth.requires_permission('read','table name',record_id)
+    to decorate functions that need access control
+    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
+    """
+    return dict(form=auth())
+
+
+@cache.action()
+def download():
+    """
+    allows downloading of uploaded files
+    http://..../[app]/default/download/[filename]
+    """
+    return response.download(request, db)
+
+
+def call():
+    """
+    exposes services. for example:
+    http://..../[app]/default/call/jsonrpc
+    decorate with @services.jsonrpc the functions to expose
+    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
+    """
+    return service()

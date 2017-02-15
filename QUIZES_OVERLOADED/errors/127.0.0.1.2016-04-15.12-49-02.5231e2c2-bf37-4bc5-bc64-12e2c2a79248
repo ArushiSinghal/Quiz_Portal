@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> %d format: a number is required, not NoneType"
+p3
+sS'layer'
+p4
+S'/home/simran/web2py/applications/QUIZES_OVERLOADED/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## This is a sample controller\n## - index is the default action of any application\n## - user is required for authentication and authorization\n## - download is for downloading files uploaded in the db (does streaming)\n#########################################################################\n\ndef index():\n    """\n    example action using the internationalization operator T and flash\n    rendered by views/default/index.html or views/generic.html\n\n    if you need a simple wiki simply replace the two lines below with:\n    return auth.wiki()\n    """\n    rows=db().select(db.titles.ALL,orderby=db.titles.title_name)\n    return dict(rows=rows)\n@auth.requires_login()\ndef show():\n    value = request.vars.value\n    rows = db(db.upload_question.title == value).select(db.upload_question.ALL)\n    for row in rows:\n       db.executesql("INSERT INTO checking (question,current_user) VALUES (\'%s\',\'%d\')" % (row.question , row.current_user))\n    return dict(rows=rows)\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/bulk_register\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users\n    """\n    return dict(form=auth())\n\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\nresponse._vars=response._caller(show)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/simran/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/simran/web2py/applications/QUIZES_OVERLOADED/controllers/default.py", line 66, in <module>\n  File "/home/simran/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/simran/web2py/gluon/tools.py", line 4258, in f\n    return action(*a, **b)\n  File "/home/simran/web2py/applications/QUIZES_OVERLOADED/controllers/default.py", line 26, in show\n    db.executesql("INSERT INTO checking (question,current_user) VALUES (\'%s\',\'%d\')" % (row.question , row.current_user))\nTypeError: %d format: a number is required, not NoneType\n'
+p11
+s.

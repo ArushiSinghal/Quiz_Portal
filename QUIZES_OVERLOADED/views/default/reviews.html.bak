@@ -1,0 +1,47 @@
+{{extend 'layout.html'}}
+<h2 style = "margin-top:66x;color:rgb(125,90,2);font-size: 49px;font-family:serif;margin-right: 550px;"> ReViews....</h2>
+<table>
+    <tr>
+    <th style="width:10%;">Name</th>
+    <th>Date of Post</th>
+    <th>Review</th>
+     <th style="width:10%;">Rating</th>
+     </tr>
+  {{for row in rows:}}
+
+    <tr>
+    <td>{{=row.name}}</td>
+    <td>{{=row.created_on}}</td>
+    <td>{{=row.your_views}}</td>
+    <td>{{=row.rating}}</td>
+     </tr>
+    {{pass}}
+</table>  
+<style>
+table {
+    border-collapse: collapse;
+    width: 90%;
+}
+
+    table,th{
+            border: 5px solid #664400;
+        text-align:center;
+    }
+    
+th{
+ font-size:27px; 
+ color:#4d1300;
+}
+   tr{
+       
+      border: 3px solid #664400; 
+   }
+    
+    
+td{
+    
+   font-size:22px; 
+ color:#802000; 
+}
+}
+</style>

@@ -1,0 +1,54 @@
+{{extend 'layout.html'}}
+<script type="text/javascript">
+function GetSelectedItem(){
+
+    var value = document.getElementById('upload_question_title').value;
+     window.location="{{=URL('default','show')}}?value="+value;
+}
+function GetItem(){
+
+    var value = document.getElementById('checking_title').value;
+     window.location="{{=URL('default','resume')}}?value="+value;
+}
+</script>
+<style>
+li{
+font-size: 16px;
+color:#3e2402;
+}
+}
+</style>
+<h1 style = "margin-left:323px;margin-top:-14px;font-size: 96px;color:rgb(101,80, 41) ;margin-right: 346px;font-family: Times;">
+  BoGGlers  
+</h1>
+<h2 style = "margin-top:66x;color:rgb(125,90,2);font-size: 49px;font-family:serif;margin-right: 550px;">
+    TakE ThE QuiZ....
+</h2>
+<h3 style = "color:rgb(142,102,56);font-size: 30px;font-family:serif;margin-right: 550px;">
+Instructions:
+</h3>
+<ul>
+<li>The Decision Of The Quiz Master will be final and will not be subjected to any change.</li>
+<li>The questions will be in the form of multiple choice,where one or more than one answer is correct.</li>
+<li>User will not be given any hints or clues.</li>
+<li>For each correct answer 10 marks will be awarded.</li>
+<li>There is no negative marking.</li>
+<li>At any Time User can pause the quiz and  resume it again from the resume option in the Navigation bar. </li>
+</ul>
+<h3 style = "color:rgb(142,102,56);font-size: 30px;font-family:serif;margin-right: 550px;">
+    Choose Your Quiz Title:
+</h3>
+<div id="background2">
+    <form>
+ <select id="upload_question_title" class="generic-widget form-control" name="title" style="width:24%;">
+   
+{{for row in rows:}}
+     <option value="{{=row.id}}">{{=row.title_name}}</option>
+
+     {{pass}}
+    </select>
+    </form>
+    <div id="out"></div>
+    <button onclick="GetSelectedItem()" style="margin-top:6px;margin-bottom:6px;margin-left:3px;">PlaY!</button>
+
+</div>

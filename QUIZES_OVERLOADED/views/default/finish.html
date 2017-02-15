@@ -1,0 +1,73 @@
+{{extend 'layout.html'}}
+<h2 style = "margin-top:66x;color:rgb(125,90,2);font-size: 49px;font-family:serif;margin-right: 550px;">
+  SCORE BOARD  
+</h2>
+{{for u in usr:}}
+<h3 style="text-transform:capitalize;color:#4d1300;font-size: 30px;font-family:serif;margin-right: 550px;">
+    {{=u.first_name}}
+
+<span>
+{{=u.last_name}}
+    </span>
+</h3>
+<h3 style="text-transform:capitalize;color:rgb(125,90,2);font-size: 30px;font-family:serif;margin-right: 550px;">
+    
+Your Score:
+    <span style="text-transform:capitalize;color:#4d1300;font-size: 30px;font-family:serif;">  {{=val}}</span>
+</h3>
+<table>
+    <tr>
+    <th>Question</th>
+    <th>Your Answer</th>
+    <th>Correct Option A</th>
+     <th>Correct Option B</th>
+     <th>Correct Option C</th>
+     <th>Correct Option D</th>
+    </tr>
+
+{{for i in xrange(0, len(rows)):}}
+{{row=rows[i]}}
+{{temp=temps[i]}}
+    <tr>
+    <td>{{=temp.count}}</td>
+    <td>{{=temp.check_ans}}</td>
+    <td>{{=row.answer_a}}</td>
+    <td>{{=row.answer_b}}</td>
+     <td>{{=row.answer_c}}</td>
+     <td>{{=row.answer_d}}</td>
+    </tr>
+    {{pass}}
+</table>
+
+
+
+{{pass}}
+{{if liked:}}
+            {{=A('Liked | ' + str(likes), _class='btn btn-primary', _style="margin-top:27px;",_href=URL('unlike', args=[value,user]))}}
+        {{else:}}
+            {{=A('Like | ' + str(likes), _class='btn btn-primary', _style="margin-top:27px;", _href=URL('like',  args=[value,user]))}}
+        {{pass}}
+
+{{=A('Home',_class='btn btn-primary',_style="margin-top:27px;margin-left: 3px;", _href=URL("home", args=[value,user]))}}
+
+<style>
+table {
+    border-collapse: collapse;
+    width: 90%;
+}
+
+    table,th{
+            border: 5px solid #664400;
+        text-align:center;
+    }
+    
+th{
+ font-size:20px; 
+ color:#4d1300;
+}
+td{
+   font-size:18px; 
+ color:#802000; 
+}
+}
+</style>

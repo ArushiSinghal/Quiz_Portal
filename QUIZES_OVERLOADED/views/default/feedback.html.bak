@@ -1,0 +1,3 @@
+{{extend 'layout.html'}}
+<h2 style = "margin-top:66x;color:rgb(125,90,2);font-size: 49px;font-family:serif;margin-right: 550px;" >FeeDbacK....</h2>
+{{=hello}}
